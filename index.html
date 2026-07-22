@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回憶房間 — 真實照片輪廓熱點</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="stage">
+    <div class="room-wrap">
+      <img src="room.png" alt="房間照片">
+      <svg class="overlay" viewBox="0 0 1024 1024" preserveAspectRatio="xMidYMid slice">
+
+        <!-- 營火 -->
+        <g class="obj-group" tabindex="0">
+          <path class="obj-shape" data-key="campfire"
+            d="M195,350 C230,365 260,345 290,385 C320,420 330,460 300,500
+               C260,505 250,505 180,500 C130,495 95,470 85,430
+               C100,395 130,370 160,360 Z" />
+          <text class="obj-label" x="205" y="530" text-anchor="middle">營火</text>
+        </g>
+
+        <!-- 小馬游泳圈 -->
+        <g class="obj-group" tabindex="0">
+          <path class="obj-shape" data-key="unicorn"
+            d="M600,215 C625,235 645,260 675,290 C680,330 670,380 640,420
+               C590,440 520,435 460,410 C420,340 370,345 330,320
+               C345,300 410,370 450,360 C470,320 490,280 520,250
+               C560,230 580,220 600,215 Z" />
+          <text class="obj-label" x="500" y="460" text-anchor="middle">彩虹小馬</text>
+        </g>
+
+        <!-- 坐在地上的人 -->
+        <g class="obj-group" tabindex="0">
+          <path class="obj-shape" data-key="person"
+            d="M755,300 C835,280 880,315 860,350 C890,390 920,440 955,480
+               C935,525 895,555 860,590 C835,630 790,670 745,710
+               C710,750 670,745 630,715 C590,670 550,610 545,560
+               C560,510 580,460 600,410 C630,360 680,320 720,300 Z" />
+          <text class="obj-label" x="750" y="775" text-anchor="middle">我的最愛</text>
+        </g>
+
+        <!-- 鞋子 左 -->
+        <g class="obj-group" tabindex="0">
+          <path class="obj-shape" data-key="shoes"
+            d="M612,955 C600,900 600,850 615,810 C635,795 655,800 668,815
+               C665,850 660,860 655,900 C650,930 645,950 630,950 Z" />
+        </g>
+        <!-- 鞋子 右 -->
+        <g class="obj-group" tabindex="0">
+          <path class="obj-shape" data-key="shoes"
+            d="M695,945 C685,895 680,860 690,815 C710,795 735,800 755,805
+               C760,840 758,865 750,900 C740,930 720,945 705,945 Z" />
+          <text class="obj-label" x="700" y="985" text-anchor="middle">Fuji Speed 3</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <div class="hint">滑鼠移到營火、鞋子、游泳圈、坐著的人身上試試</div>
+  </div>
+
+  <!-- 彈窗Modal -->
+  <div class="veil" id="veil">
+    <div class="polaroid">
+      <button class="close-btn" id="closeBtn">關閉 ✕</button>
+      <div class="photo-frame" id="photoFrame"></div>
+      <div class="memory-date" id="memoryDate">—</div>
+      <p class="memory-text" id="memoryText">—</p>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
