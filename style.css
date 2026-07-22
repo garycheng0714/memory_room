@@ -1,181 +1,311 @@
-:root{
-    --lamp: #f0a85c;
-    --cream: #f2e9d8;
-    --cream-dim: #cfc3ad;
-  }
-  *{box-sizing:border-box;}
-  html,body{
-    margin:0; padding:0; height:100%;
-    background:#0d0b10;
-    font-family: Georgia, 'Noto Serif TC', serif;
-    overflow:hidden;
-  }
-  .stage{
-    position:relative;
-    width:100%; height:100vh;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .room-wrap{
-    position:relative;
-    height:100%;
-    aspect-ratio: 1/1;
-    max-width:100%;
-  }
-  .room-wrap img{
-    width:100%; height:100%;
-    display:block;
-    object-fit:cover;
-  }
-  svg.overlay{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-  }
-  .obj-shape{
-    fill: rgba(240,168,92,0.0);
-    stroke: rgba(240,168,92,0);
-    stroke-width:3;
-    cursor:pointer;
-    transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
-  }
-  .obj-shape:hover, .obj-shape:focus-visible{
-    fill: rgba(240,168,92,0.22);
-    stroke: rgba(240,168,92,0.85);
-    filter: drop-shadow(0 0 10px rgba(240,168,92,0.6));
-    outline:none;
-  }
-  .obj-label{
-    fill: var(--cream);
-    font-family: ui-monospace, monospace;
-    font-size:20px;
-    letter-spacing:0.05em;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity 0.3s ease;
-    paint-order: stroke;
-    stroke: rgba(0,0,0,0.6);
-    stroke-width: 4px;
-  }
-  .obj-group:hover .obj-label{ opacity:1; }
- 
-  .hint{
-    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
-    color: var(--cream-dim);
-    font-family: ui-monospace, monospace;
-    font-size:11px;
-    opacity:0.75;
-    z-index:2;
-    background:rgba(0,0,0,0.4);
-    padding:6px 12px;
-    border-radius:20px;
-  }
- 
-  /* modal */
-  .veil{
-    position:fixed; inset:0;
-    background: rgba(10,8,14,0.72);
-    backdrop-filter: blur(2px);
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; pointer-events:none;
-    transition: opacity 0.4s ease;
-    z-index:10;
-  }
-  .veil.open{ opacity:1; pointer-events:auto; }
+:root {
+  --lamp: #f0a85c;
+  --cream: #f2e9d8;
+  --cream-dim: #cfc3ad;
+}
 
-  .polaroid{
-    width:auto;
-    max-width:92vw;
-    background: var(--cream);
-    padding:18px 18px 26px;
-    border-radius:2px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-    transform: translateY(24px) rotate(-1.2deg) scale(0.96);
-    opacity:0;
-    transition: transform 0.5s cubic-bezier(.2,.8,.2,1), opacity 0.5s ease, width 0.4s ease;
-    position:relative;
-  }
+/* 1. 基礎 Reset 與防選取 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  /* 移除手機預設點擊藍色高亮與點擊延遲 */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 
-  .veil.open .polaroid{ transform: translateY(0) rotate(-1.2deg) scale(1); opacity:1; }
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  /* 核心修正：使用 dvh 避免手機網址列與工具列切到畫面 */
+  height: 100vh;
+  height: 100dvh;
+  background: #0d0b10;
+  font-family: Georgia, 'Noto Serif TC', serif;
+  overflow: hidden;
+  /* 禁止手機長按選取文字 */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 2. 滿版舞台容器 */
+.stage {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* 關鍵修正：讓正方形畫面「自動適應」手機的長寬比 */
+.room-wrap {
+  position: relative;
+  /* 設為 100% 寬高，但利用 max-width / max-height 鎖住比例 */
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
   
-  .photo-viewport{
-    position:relative;
-    width:100%;
-    overflow:hidden;
-    background:#2a2430;
-    transition: height 0.4s ease;
-  }
+  /* 關鍵！確保寬與高都絕不超過手機螢幕 */
+  max-width: 100vw;
+  max-height: 100dvh;
+}
 
-  .photo-track{
-    display:flex;
-    height:100%;
-    transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
-  }
-  
-   .photo-slide{
-    flex: 0 0 100%;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    filter: blur(6px) saturate(0.7);
-    transition: filter 1s ease 0.1s;
-  }
+.room-wrap img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* contain: 完整顯示整張房間圖，絕不裁切；cover: 填滿容器 */
+  object-fit: contain; 
+}
 
-  .photo-slide img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-  }
+svg.overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 
-  .veil.open .photo-slide.active{ filter: blur(0) saturate(1); }
+/* 3. SVG 觸控熱點 (Hotspots) 優化 */
+.obj-shape {
+  fill: rgba(240, 168, 92, 0);
+  stroke: rgba(240, 168, 92, 0);
+  stroke-width: 3;
+  cursor: pointer;
+  transition: fill 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+  /* 讓觸控區域更精準 */
+  pointer-events: visiblePainted;
+}
 
-  
- 
-  .nav-arrow{
-    position:absolute; top:50%; transform:translateY(-50%);
-    width:32px; height:32px;
-    border-radius:50%;
-    border:none;
-    background: rgba(20,16,24,0.45);
-    color: var(--cream);
-    font-family: ui-monospace, monospace;
-    font-size:16px;
-    cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    opacity:0.8;
-    transition: opacity 0.2s ease, background 0.2s ease;
-    z-index:2;
-  }
-  .nav-arrow:hover{ opacity:1; background: rgba(240,168,92,0.55); }
-  .nav-arrow.prev{ left:8px; }
-  .nav-arrow.next{ right:8px; }
-  .nav-arrow.hidden{ display:none; }
- 
-  .dots{
-    position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
-    display:flex; gap:6px;
-    z-index:2;
-  }
-  .dot{
-    width:6px; height:6px; border-radius:50%;
-    background: rgba(242,233,216,0.4);
-    transition: background 0.25s ease, transform 0.25s ease;
-  }
-  .dot.active{ background: var(--cream); transform: scale(1.3); }
- 
-  .memory-date{
-    margin: 14px 2px 4px;
-    font-family: ui-monospace, monospace;
-    font-size:11px; letter-spacing:0.08em;
-    color: #8a7a5c; text-transform:uppercase;
-  }
-  .memory-text{ margin: 4px 2px 0; color:#2c2620; font-size:16px; line-height:1.7; min-height:3.4em; }
-  .close-btn{
-    position:absolute; top:14px; right:16px;
-    background:none; border:none;
-    color: var(--cream-dim);
-    font-family: ui-monospace, monospace;
-    font-size:13px; cursor:pointer; opacity:0.7;
-    z-index:3;
-  }
-  .close-btn:hover{ opacity:1; color: var(--lamp); }
+/* 支援電腦 Hover 與手機 Touch Active (按下的瞬間) */
+.obj-shape:hover,
+.obj-shape:focus-visible,
+.obj-shape:active {
+  fill: rgba(240, 168, 92, 0.22);
+  stroke: rgba(240, 168, 92, 0.85);
+  filter: drop-shadow(0 0 10px rgba(240, 168, 92, 0.6));
+  outline: none;
+}
+
+.obj-label {
+  fill: var(--cream);
+  font-family: ui-monospace, monospace;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-width: 4px;
+}
+
+.obj-group:hover .obj-label,
+.obj-group:active .obj-label {
+  opacity: 1;
+}
+
+/* 4. 底部提示（自動避開 iPhone 橫條） */
+.hint {
+  position: absolute;
+  /* 支援 safe-area，避免被動態島/底條擋住 */
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--cream-dim);
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  opacity: 0.75;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* 5. Modal 遮罩與拍立得彈窗 */
+.veil {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 14, 0.76);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+  padding: 16px; /* 避免手機邊緣貼死 */
+}
+
+.veil.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.polaroid {
+  width: 100%;
+  max-width: 400px; /* 給予合理最大寬度 */
+  max-height: 85dvh; /* 防止手機彈窗太高超出螢幕 */
+  overflow-y: auto;  /* 內容太長時可滑動 */
+  background: var(--cream);
+  padding: 18px 18px 24px;
+  border-radius: 2px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: translateY(24px) rotate(-1.2deg) scale(0.96);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(.2,.8,.2,1), opacity 0.5s ease;
+  position: relative;
+}
+
+.veil.open .polaroid {
+  transform: translateY(0) rotate(-1.2deg) scale(1);
+  opacity: 1;
+}
+
+.photo-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3; /* 建議指定預設比例，防止圖片載入前塌陷 */
+  overflow: hidden;
+  background: #2a2430;
+  border-radius: 1px;
+}
+
+.photo-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
+}
+
+.photo-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: blur(6px) saturate(0.7);
+  transition: filter 0.8s ease 0.1s;
+}
+
+.photo-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.veil.open .photo-slide.active {
+  filter: blur(0) saturate(1);
+}
+
+/* 6. 切換按鈕與控制元件 */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(20, 16, 24, 0.55);
+  color: var(--cream);
+  font-family: ui-monospace, monospace;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  z-index: 2;
+}
+
+.nav-arrow:hover, .nav-arrow:active {
+  opacity: 1;
+  background: rgba(240, 168, 92, 0.8);
+}
+
+.nav-arrow.prev { left: 8px; }
+.nav-arrow.next { right: 8px; }
+.nav-arrow.hidden { display: none; }
+
+.dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242, 233, 216, 0.4);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.dot.active {
+  background: var(--cream);
+  transform: scale(1.3);
+}
+
+.memory-date {
+  margin: 14px 2px 4px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #8a7a5c;
+  text-transform: uppercase;
+}
+
+.memory-text {
+  margin: 4px 2px 0;
+  color: #2c2620;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 3em;
+  -webkit-user-select: text; /* 允許文字被複製 */
+  user-select: text;
+}
+
+.close-btn{
+  position:absolute; top:14px; right:16px;
+  background:none; border:none;
+  color: var(--cream-dim);
+  font-family: ui-monospace, monospace;
+  font-size:13px; cursor:pointer; opacity:0.7;
+  z-index:3;
+}
+
+/* .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #5a4f40;
+  font-family: ui-monospace, monospace;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: background 0.2s, color 0.2s;
+} */
+
+.close-btn:hover, .close-btn:active {
+  background: var(--lamp);
+  color: #fff;
+}
