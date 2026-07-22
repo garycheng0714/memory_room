@@ -29,7 +29,7 @@
                C590,440 520,435 460,410 C420,340 370,345 330,320
                C345,300 410,370 450,360 C470,320 490,280 520,250
                C560,230 580,220 600,215 Z" />
-          <text class="obj-label" x="500" y="460" text-anchor="middle">彩虹小馬</text>
+          <text class="obj-label" x="500" y="460" text-anchor="middle">身騎白馬</text>
         </g>
 
         <!-- 坐在地上的人 -->
@@ -59,14 +59,21 @@
       </svg>
     </div>
 
-    <div class="hint">滑鼠移到營火、鞋子、游泳圈、坐著的人身上試試</div>
+    <div class="hint">滑鼠移到營火、鞋子、游泳圈、Rao 身上試試</div>
   </div>
 
   <!-- 彈窗Modal -->
   <div class="veil" id="veil">
     <div class="polaroid">
       <button class="close-btn" id="closeBtn">關閉 ✕</button>
-      <div class="photo-frame" id="photoFrame"></div>
+  
+      <div class="photo-viewport">
+        <div class="photo-track" id="photoTrack"></div>
+        <button class="nav-arrow prev" id="prevBtn">‹</button>
+        <button class="nav-arrow next" id="nextBtn">›</button>
+        <div class="dots" id="dots"></div>
+      </div>
+  
       <div class="memory-date" id="memoryDate">—</div>
       <p class="memory-text" id="memoryText">—</p>
     </div>
