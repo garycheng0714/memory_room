@@ -3,28 +3,28 @@ const ROOM_IMG = "assets/river_all.jpg"
 // 回憶資料庫
 const memories = {
     campfire: [
-      { date: "營火 · 第一晚", text: "在這裡放的柴火，燒了整晚，話題也沒停過。", img: "assets/camping_rao.jpg" },
-      { date: "營火 · 第一碗", text: "酒，再怎麼香，都沒有自己的新鞋香。", img: "assets/camping_drink2.jpg" },
-      { date: "營火 · 收尾", text: "火快熄的時候誰都不想先起身回房間。", img: "assets/camping_fly.jpg" },
-      { date: "營火 · 收尾", text: "火快熄的時候誰都不想先起身回房間。", img: "assets/camping_dinner.jpg" },
+      { date: "營火 · 起飛", text: "跑一跑就飛起來惹", img: "assets/camping_fly.jpg" },
+      { date: "營火 · 序幕", text: "", img: "assets/camping_dinner.jpg" },
+      { date: "營火 · 第一晚", text: "饒：你怎麼沒跟我說，露營要喝很多酒。", img: "assets/camping_rao.jpg" },
+      { date: "營火 · 第一碗", text: "這傢伙照片太少了，只有鞋酒照", img: "assets/camping_drink2.jpg" },
     ],
     unicorn: [
       { date: "身騎白馬", text: "是誰住在深海的大鳳梨裡。", img: "assets/river_all.jpg" },
       { date: "身騎白馬", text: "說好只是拿來拍照，結果整晚都躺在它身上。", img: "assets/river_girls.jpg" },
       { date: "身騎白馬", text: "總有不想面對棒子的時候。", img: "assets/river_headless.jpg" },
-      { date: "身騎白馬", text: "饒：是誰在搖啦！！一定是 Ben！\n!!!", img: "assets/river_boys.jpg" }
+      { date: "身騎白馬", text: "饒：是誰在搖啦！！一定是 Ben！！", img: "assets/river_boys.jpg" }
     ],
     person: [
-      { date: "我的最愛", text: "你只能跟我背一樣的包包", img: "assets/rao_birthday.jpg" },
-      { date: "那個人 · 剛坐下", text: "手機滑不停，卻還是願意坐在這裡陪到最後。", img: "assets/rao_love.jpg" },
-      { date: "那個人 · 剛坐下", text: "手機滑不停，卻還是願意坐在這裡陪到最後。", img: "assets/rao_together.jpg" },
-      { date: "那個人 · 剛坐下", text: "手機滑不停，卻還是願意坐在這裡陪到最後。", img: "assets/rao_dame.jpg" },
+      { date: "我的最愛", text: "", img: "assets/rao_birthday.jpg" },
+      { date: "我的最愛", text: "", img: "assets/rao_love.jpg" },
+      { date: "我的最愛", text: "", img: "assets/rao_together.jpg" },
+      { date: "我的最愛", text: "", img: "assets/rao_dame.jpg" },
     ],
     shoes: [
-      { date: "鞋子", text: "剛跑完就直接脫在這，鞋帶都沒解開。", img: "assets/trail_sport.jpg" },
-      { date: "鞋子", text: "剛跑完就直接脫在這，鞋帶都沒解開。", img: "assets/trail_moutain.jpg" },
-      { date: "鞋子", text: "剛跑完就直接脫在這，鞋帶都沒解開。", img: "assets/trail_marathon.jpg" },
-      { date: "鞋子", text: "剛跑完就直接脫在這，鞋帶都沒解開。", img: "assets/trail_bikini.jpg" },
+      { date: "鞋子", text: "", img: "assets/trail_birthday.jpg" },
+      { date: "鞋子", text: "", img: "assets/trail_seven.jpg" },
+      { date: "鞋子", text: "", img: "assets/trail_moutain.jpg" },
+      { date: "鞋子", text: "", img: "assets/trail_haowei.jpg" },
     ]
   };
  
